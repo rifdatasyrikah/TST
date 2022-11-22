@@ -9,6 +9,12 @@ class mahasiswa(BaseModel):
     nim: int
     nama: str
 
+class indeks(BaseModel):
+    nim: int
+    mata_kuliah :str
+    sks: int
+    indeks: str
+
 @app.post("/")
 # menerima data NIM dan nama dar client dalam format JSON
 async def add_mahasiswa(M: mahasiswa):
@@ -39,9 +45,42 @@ async def add_mahasiswa(M: mahasiswa):
     with open('mahasiswa.json', 'w') as f:
         json.dump(luaran, f)
 
-    return "Data mahasiswa baru: " +str(new_mahasiswa)+ " telah diterima"
+    {"message": "data indeks berhasil ditambahkan"}
 
 #asumsi input tidak perlu dicek apakah data nim yang diinput sudah ada pada data yang ada sebelumnya
+
+@app.post("/{nim}")
+# menerima data NIM dan nama dar client dalam format JSON
+async def add_indeks(I: indeks):
+    #inisialisasi list data mahasiswa
+    list_indeks = []
+
+    #simpan data dari file JSON ke list
+    with open('indeks.json', 'r') as f:
+        list_indeks = json.load(f)['indeks']
+
+    #cek isi data awal
+    print(list_indeks)
+
+    #disimpan ke dalam sebuah variabel (dictionary)
+    new_indeks = {
+        "mata_kuliah":I.mata_kuliah,
+        "sks":I.sks,
+        "indeks":I.indeks
+        }
+
+    # #menambahkan data baru ke data mahasiswa yang sudah ada
+    list_indeks.append(new_indeks)
+
+    #cek list data baru
+    print(list_indeks)
+
+    #menyimpan seluruh data ke file JSON
+    luaran = {'indeks':list_indeks}
+    with open('indeks.json', 'w') as f:
+        json.dump(luaran, f)
+
+    return {"message": "data indeks berhasil ditambahkan"}
 
 
 if __name__ == '__main__':
