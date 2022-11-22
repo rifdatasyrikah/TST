@@ -45,7 +45,7 @@ async def add_mahasiswa(M: mahasiswa):
     with open('mahasiswa.json', 'w') as f:
         json.dump(luaran, f)
 
-    {"message": "data indeks berhasil ditambahkan"}
+    return {"message": "data mahasiswa berhasil ditambahkan"}
 
 #asumsi input tidak perlu dicek apakah data nim yang diinput sudah ada pada data yang ada sebelumnya
 
