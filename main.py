@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 import json
+import uvicorn
 
 app = FastAPI()
 
@@ -64,6 +65,7 @@ async def add_indeks(I: indeks):
 
     #disimpan ke dalam sebuah variabel (dictionary)
     new_indeks = {
+        "nim":I.nim,
         "mata_kuliah":I.mata_kuliah,
         "sks":I.sks,
         "indeks":I.indeks
