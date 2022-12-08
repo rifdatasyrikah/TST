@@ -3,7 +3,7 @@
 from fastapi import Request, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from jwt_handler import decodeJWT
+from authentication.jwt_handler import decodeJWT
 
 #subclass, for persist authentication
 class jwtBearer(HTTPBearer):
