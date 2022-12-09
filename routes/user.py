@@ -26,7 +26,10 @@ def register(user:UserSchema ,db:Session=Depends(get_db)):
 @user_router.post("/login")
 def login(login:UserLoginSchema ,db:Session=Depends(get_db)):
         user=db.query(User).filter(User.email==login.email).first()
-        if Hash.verify(user.password, login.password):
-                return signJWT(user.email)
+        if user is None:
+                return  {"Error":"email belum terdaftar"}
         else:
-                return {"Error":"Password dan Email tidak sesuai"}
+                if Hash.verify(user.password, login.password):
+                        return signJWT(user.email)
+                else:
+                        return {"Error":"Password dan Email tidak sesuai"}
