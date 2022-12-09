@@ -18,6 +18,7 @@ class PendaftaranPascasarjana(BaseModel):
     SOP: int
     LOR: int
     CGPA: float
+    Research : int
 
 class PrediksiPenerimaan(PendaftaranPascasarjana):
     ChangeOfAdmit: float

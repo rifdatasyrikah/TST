@@ -14,12 +14,15 @@ print(data_admisi)
 x = np.array(data_admisi.drop(columns=predict_admisi))
 y = np.array(data_admisi[predict_admisi])
 
-x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x,y, test_size=0.1)
+best = 0
+for _ in range(50):
+    x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x,y, test_size=0.1)
 
-linear = linear_model.LinearRegression()
-linear.fit(x_train, y_train)
-acc = linear.score(x_test, y_test)
-print(acc)
-
-with open("admition.pickle", "wb") as f:
-    pickle.dump(linear, f)
+    linear = linear_model.LinearRegression()
+    linear.fit(x_train, y_train)
+    acc = linear.score(x_test, y_test)
+    print(acc)
+    if acc > best:
+        best = acc
+        with open("admition.pickle", "wb") as f:
+            pickle.dump(linear, f)

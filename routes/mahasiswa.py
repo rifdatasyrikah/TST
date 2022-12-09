@@ -13,21 +13,21 @@ import pickle
 # from matplotlib import style
 # from sklearn.utility import shuffle
 
-data_admisi = pd.read_csv("adm_data.csv", sep=",")
+# data_admisi = pd.read_csv("adm_data.csv", sep=",")
 
-data_admisi = data_admisi[["GRE Score","TOEFL Score","University Rating","SOP","LOR", "CGPA", "Research", "Chance of Admit"]]
-data_admisi["CGPA"] = data_admisi["CGPA"].apply(lambda x: (x*4)/10) #mengonversi nilai GPA dari rentang 0-10 menjadi 0-4
-predict_admisi = "Chance of Admit"
-# print(data_admisi)
-x = np.array(data_admisi.drop(columns=predict_admisi))
-y = np.array(data_admisi[predict_admisi])
+# data_admisi = data_admisi[["GRE Score","TOEFL Score","University Rating","SOP","LOR", "CGPA", "Research", "Chance of Admit"]]
+# data_admisi["CGPA"] = data_admisi["CGPA"].apply(lambda x: (x*4)/10) #mengonversi nilai GPA dari rentang 0-10 menjadi 0-4
+# predict_admisi = "Chance of Admit"
+# # print(data_admisi)
+# x = np.array(data_admisi.drop(columns=predict_admisi))
+# print(x)
+# y = np.array(data_admisi[predict_admisi])
+# print(y)
 
-x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x,y, test_size=0.1)
+# x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x,y, test_size=0.1)
 
-pickle_in = open("admition.pickle", "rb") 
-linear = pickle.load(pickle_in)
-# acc = linear.score(x_test, y_test)
-# print(acc)
+# pickle_in = open("admition.pickle", "rb") 
+# linear = pickle.load(pickle_in)
 
 mahasiswa_router = APIRouter(tags=["Mahasiswa"])
 
@@ -67,12 +67,18 @@ async def delete_transkrip_mahasiswa(nim: int, semester:int, db: Session=Depends
         db.commit()
         return {"Message":"Data Transkrip berhasil dihapus dari database"}
 
-@mahasiswa_router.get("/Prediksi/IPK", dependencies=[Depends(jwtBearer())])
+@mahasiswa_router.post("/Prediksi/IPK", dependencies=[Depends(jwtBearer())])
 async def prediksi_ipk_mahasiswa(nim: int, db: Session=Depends(get_db)):
     return None
 
-@mahasiswa_router.get("/Prediksi/AdmisiPascasarjana", dependencies=[Depends(jwtBearer())])
+@mahasiswa_router.post("/Prediksi/AdmisiPascasarjana", dependencies=[Depends(jwtBearer())])
 async def prediksi_admisi_pascasarjana(data : model.PendaftaranPascasarjana):
+    print(data)
+    arrX = np.array([[data.GRE, data.TOEFL, data.UniversityRating, data.SOP, data.LOR, data.CGPA, data.Research]]).astype(float)
+    print(arrX)
+    pickle_in = open("admition.pickle", "rb") 
+    model = pickle.load(pickle_in)
 
-    pass 
-    # return {"prediction" : prediction}
+    prediction = model.predict(arrX)
+    print(prediction)
+    return {"prediction" : prediction[0]}

@@ -12,7 +12,7 @@ app.include_router(mahasiswa_router)
 
 Base.metadata.create_all(engine)
 
-@app.get("/")
+@app.get("/", tags=["Home"])
 async def home():
     return {"Message":"Selamat Datang"}
 
