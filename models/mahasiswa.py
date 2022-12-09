@@ -10,3 +10,14 @@ class Transkrip(BaseModel):
     semester: int
     jumlah_sks: int
     ip: float
+
+class PendaftaranPascasarjana(BaseModel):
+    GRE : int
+    TOEFL: int
+    UniversityRating : int
+    SOP: int
+    LOR: int
+    CGPA: float
+
+class PrediksiPenerimaan(PendaftaranPascasarjana):
+    ChangeOfAdmit: float
