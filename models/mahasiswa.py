@@ -6,12 +6,12 @@ class Mahasiswa(BaseModel):
     nama: str
 
 class Transkrip(BaseModel):
-    nim: int
+    # nim: int
     semester: int
     jumlah_sks: int
     ip: float
 
-class PendaftaranPascasarjana(BaseModel):
+class dataPendaftaran(BaseModel):
     GRE : int
     TOEFL: int
     UniversityRating : int
@@ -19,6 +19,3 @@ class PendaftaranPascasarjana(BaseModel):
     LOR: int
     CGPA: float
     Research : int
-
-class PrediksiPenerimaan(PendaftaranPascasarjana):
-    ChangeOfAdmit: float
