@@ -31,3 +31,6 @@ def decodeJWT(token: str):
             return None
     except:
         return {}
+
+def get_current_user():
+    pass
